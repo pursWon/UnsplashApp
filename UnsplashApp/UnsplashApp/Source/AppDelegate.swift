@@ -1,10 +1,3 @@
-//
-//  AppDelegate.swift
-//  UnsplashApp
-//
-//  Created by MacBook Air on 2023/04/10.
-//
-
 import UIKit
 
 @main

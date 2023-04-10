@@ -1,1 +1,7 @@
-import Foundation
+import UIKit
+
+class CustomCollectionView: UICollectionView {
+    
+}
+
+

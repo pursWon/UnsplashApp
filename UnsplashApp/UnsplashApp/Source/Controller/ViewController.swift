@@ -2,11 +2,12 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    private var customCollectionView: CustomCollectionView!
+    private var customCollectionView: UICollectionView!
     private let data = Data()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         view.backgroundColor = .darkGray
         configureCollectionView()
         registerCollectionView()
@@ -14,7 +15,7 @@ class ViewController: UIViewController {
     }
     
     func configureCollectionView() {
-        customCollectionView = CustomCollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout.init())
+        customCollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout.init())
         customCollectionView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(customCollectionView)
         customCollectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 70).isActive = true
@@ -36,7 +37,12 @@ class ViewController: UIViewController {
 
 extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 100, height: 100)
+        let leftAndRightPaddings: CGFloat = 45.0
+        let numberOfItemsPerRow: CGFloat = 2.0
+        
+        let width = (collectionView.frame.width - leftAndRightPaddings) / numberOfItemsPerRow
+        
+        return CGSize(width: width, height: width)
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

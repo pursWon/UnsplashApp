@@ -37,7 +37,7 @@ class ViewController: UIViewController {
 
 extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let leftAndRightPaddings: CGFloat = 45.0
+        let leftAndRightPaddings: CGFloat = 20.0
         let numberOfItemsPerRow: CGFloat = 2.0
         
         let width = (collectionView.frame.width - leftAndRightPaddings) / numberOfItemsPerRow

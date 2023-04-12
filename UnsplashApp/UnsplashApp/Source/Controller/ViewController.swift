@@ -2,8 +2,14 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    private var customCollectionView: UICollectionView!
-    private let data = Data()
+    let customCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.init())
+        
+        return cv
+    }()
+    
+    let data = Data()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -15,7 +21,6 @@ class ViewController: UIViewController {
     }
     
     func configureCollectionView() {
-        customCollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout.init())
         customCollectionView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(customCollectionView)
         customCollectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 70).isActive = true
@@ -36,9 +41,10 @@ class ViewController: UIViewController {
 }
 
 extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let leftAndRightPaddings: CGFloat = 20.0
-        let numberOfItemsPerRow: CGFloat = 2.0
+        let leftAndRightPaddings: CGFloat = 20
+        let numberOfItemsPerRow: CGFloat = 2
         
         let width = (collectionView.frame.width - leftAndRightPaddings) / numberOfItemsPerRow
         

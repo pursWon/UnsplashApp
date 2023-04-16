@@ -1,7 +1,7 @@
 import UIKit
+import Alamofire
 
 class MainViewController: UIViewController {
-    
     let customCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let cv = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.init())
@@ -9,7 +9,8 @@ class MainViewController: UIViewController {
         return cv
     }()
     
-    let data = Data()
+    let url = "https://api.unsplash.com/photos?%2F&client_id=_U8IXCu_fSzL1Mbg4jGxXjAxhjXPPIiXCrdbMvlmZ4k&page=1&per_page=10"
+    var photoList: [Photos]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,7 +19,26 @@ class MainViewController: UIViewController {
         configureCollectionView()
         registerCollectionView()
         collectionViewDelegate()
+        getImageData(url: url)
+        
     }
+    
+    func getImageData(url: String) {
+        AF.request(url, method: .get).responseDecodable(of: PhotoData.self) {
+            response in
+            if let data = response.value {
+                self.photoList = data.data
+    
+                DispatchQueue.main.async {
+                self.customCollectionView.reloadData()
+                }
+            } else {
+                print(response.error)
+            }
+        }
+    }
+    
+   
     
     func configureCollectionView() {
         customCollectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -52,17 +72,13 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return data.tottenHam.count
+        guard let photoList = photoList else { return 0 }
+        
+        return photoList.count
     }
-    
-    // func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-    //     return 5
-    // }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = customCollectionView.dequeueReusableCell(withReuseIdentifier: "mainCell", for: indexPath) as! ColleciontViewCell
-        cell.titleLabel.text = data.tottenHam[indexPath.row]
-        cell.backgroundColor = .white
         
         return cell
     }

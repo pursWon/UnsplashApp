@@ -1,16 +1,17 @@
-import UIKit
+import Foundation
 
 struct PhotoData: Decodable {
     let data: [Photos]
 }
 
 struct Photos: Decodable {
-    let description: String
-    let urls: PhotoUrl
+    let id: String
+    let urls: Size
 }
 
-struct PhotoUrl: Decodable {
-    let raw: String
+struct Size: Decodable {
+    let small: String
 }
+
 
 

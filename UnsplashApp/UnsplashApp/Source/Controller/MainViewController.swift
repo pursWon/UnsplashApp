@@ -3,9 +3,10 @@ import Alamofire
 import Kingfisher
 
 class MainViewController: UIViewController {
-    let url = "https://api.unsplash.com/photos?%2F&client_id=_U8IXCu_fSzL1Mbg4jGxXjAxhjXPPIiXCrdbMvlmZ4k&page=1&per_page=10"
+    let url = "https://api.unsplash.com/photos?%2F&client_id=_U8IXCu_fSzL1Mbg4jGxXjAxhjXPPIiXCrdbMvlmZ4k&page=1&per_page=20"
     var photoList: [Photos]?
     var imageURLs: [String] = []
+    var descriptions: [String] = []
     
     let customCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -22,7 +23,6 @@ class MainViewController: UIViewController {
         registerCollectionView()
         collectionViewDelegate()
         getImageData(url: url)
-        
     }
     
     func getImageData(url: String) {
@@ -33,13 +33,12 @@ class MainViewController: UIViewController {
                 guard let photoList = self.photoList else { return }
                 
                 photoList.forEach {
-                    self.imageURLs.append($0.urls.small)
+                    self.imageURLs.append($0.urls.regular)
+                    self.descriptions.append($0.alt_description)
                 }
                 
-                print(self.imageURLs.count)
-                
                 DispatchQueue.main.async {
-                self.customCollectionView.reloadData()
+                    self.customCollectionView.reloadData()
                 }
             } else {
                 print("통신 실패")
@@ -89,6 +88,8 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
         let imageURL = URL(string: imageURLs[indexPath.row])
         
         cell.imageView.kf.setImage(with: imageURL)
+        cell.titleLabel.text = descriptions[indexPath.row]
+        cell.backgroundColor = .red
         
         return cell
     }

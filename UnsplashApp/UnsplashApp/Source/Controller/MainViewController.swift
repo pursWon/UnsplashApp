@@ -1,16 +1,18 @@
 import UIKit
 import Alamofire
+import Kingfisher
 
 class MainViewController: UIViewController {
+    let url = "https://api.unsplash.com/photos?%2F&client_id=_U8IXCu_fSzL1Mbg4jGxXjAxhjXPPIiXCrdbMvlmZ4k&page=1&per_page=10"
+    var photoList: [Photos]?
+    var imageURLs: [String] = []
+    
     let customCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let cv = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.init())
         
         return cv
     }()
-    
-    let url = "https://api.unsplash.com/photos?%2F&client_id=_U8IXCu_fSzL1Mbg4jGxXjAxhjXPPIiXCrdbMvlmZ4k&page=1&per_page=10"
-    var photoList: [Photos]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,21 +26,26 @@ class MainViewController: UIViewController {
     }
     
     func getImageData(url: String) {
-        AF.request(url, method: .get).responseDecodable(of: PhotoData.self) {
+        AF.request(url, method: .get).responseDecodable(of: [Photos].self) {
             response in
             if let data = response.value {
-                self.photoList = data.data
-    
+                self.photoList = data
+                guard let photoList = self.photoList else { return }
+                
+                photoList.forEach {
+                    self.imageURLs.append($0.urls.small)
+                }
+                
+                print(self.imageURLs.count)
+                
                 DispatchQueue.main.async {
                 self.customCollectionView.reloadData()
                 }
             } else {
-                print(response.error)
+                print("통신 실패")
             }
         }
     }
-    
-   
     
     func configureCollectionView() {
         customCollectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -79,6 +86,9 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = customCollectionView.dequeueReusableCell(withReuseIdentifier: "mainCell", for: indexPath) as! ColleciontViewCell
+        let imageURL = URL(string: imageURLs[indexPath.row])
+        
+        cell.imageView.kf.setImage(with: imageURL)
         
         return cell
     }

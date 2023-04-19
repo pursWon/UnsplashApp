@@ -15,14 +15,19 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.makeKeyAndVisible()
         
         let mainViewController = MainViewController()
+        let subViewController = UIViewController()
         
         let tabBarController: UITabBarController = UITabBarController()
-        tabBarController.setViewControllers([mainViewController], animated: true)
+        tabBarController.setViewControllers([mainViewController, subViewController], animated: true)
         
         if let items = tabBarController.tabBar.items {
             items[0].image = UIImage(systemName: "folder")
             items[0].selectedImage = UIImage(systemName: "folder.fill")
             items[0].title = "Home"
+            
+            items[1].image = UIImage(systemName: "circle")
+            items[1].selectedImage = UIImage(systemName: "circle.fill")
+            items[1].title = "Sub"
         }
         
         window?.rootViewController = tabBarController

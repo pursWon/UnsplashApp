@@ -3,7 +3,7 @@ import Alamofire
 import Kingfisher
 
 class MainViewController: UIViewController {
-    let url = "https://api.unsplash.com/photos?%2F&client_id=_U8IXCu_fSzL1Mbg4jGxXjAxhjXPPIiXCrdbMvlmZ4k&page=1&per_page=20"
+    let url = "https://api.unsplash.com/photos?client_id=4f_kJPCZalKnH_vkUEZM9Fktk0KlPar9YwLaFq-KyM0&page=1&per_page=20"
     var photoList: [Photos]?
     var imageURLs: [String] = []
     var descriptions: [String] = []
@@ -26,8 +26,7 @@ class MainViewController: UIViewController {
     }
     
     func getImageData(url: String) {
-        AF.request(url, method: .get).responseDecodable(of: [Photos].self) {
-            response in
+        AF.request(url, method: .get).responseDecodable(of: [Photos].self) { response in
             if let data = response.value {
                 
                 self.photoList = data
@@ -42,7 +41,7 @@ class MainViewController: UIViewController {
                     self.customCollectionView.reloadData()
                 }
             } else {
-                print("통신 실패")
+                print(response.error)
             }
         }
     }
@@ -68,11 +67,9 @@ class MainViewController: UIViewController {
 }
 
 extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let leftAndRightPaddings: CGFloat = 20
         let numberOfItemsPerRow: CGFloat = 2
-        
         let width = (collectionView.frame.width - leftAndRightPaddings) / numberOfItemsPerRow
         
         return CGSize(width: width, height: width)

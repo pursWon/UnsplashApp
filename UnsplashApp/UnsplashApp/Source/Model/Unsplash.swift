@@ -2,7 +2,7 @@ import Foundation
 
 
 struct Photos: Decodable {
-    let alt_description: String
+    let alt_description: String?
     let urls: Size
 }
 

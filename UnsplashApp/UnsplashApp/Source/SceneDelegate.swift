@@ -15,11 +15,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.makeKeyAndVisible()
         
         let mainViewController = MainViewController()
-        let subViewController = UIViewController()
+        let searchViewController = SearchViewController()
+        let navigationController = UINavigationController(rootViewController: searchViewController)
         
         let tabBarController: UITabBarController = UITabBarController()
-        tabBarController.setViewControllers([mainViewController, subViewController], animated: true)
-        
+        tabBarController.setViewControllers([mainViewController, navigationController], animated: true)
+
         if let items = tabBarController.tabBar.items {
             items[0].image = UIImage(systemName: "folder")
             items[0].selectedImage = UIImage(systemName: "folder.fill")
@@ -28,6 +29,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             items[1].image = UIImage(systemName: "circle")
             items[1].selectedImage = UIImage(systemName: "circle.fill")
             items[1].title = "Sub"
+
+            items[1].image = UIImage(systemName: "magnifyingglass.circle")
+            items[1].selectedImage = UIImage(systemName: "magnifyingglass.circle.fill")
+            items[1].title = "Search"
         }
         
         window?.rootViewController = tabBarController

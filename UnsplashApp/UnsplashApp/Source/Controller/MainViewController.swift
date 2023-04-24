@@ -28,12 +28,13 @@ class MainViewController: UIViewController {
     func getImageData(url: String) {
         AF.request(url, method: .get).responseDecodable(of: [Photos].self) { response in
             if let data = response.value {
+                
                 self.photoList = data
                 guard let photoList = self.photoList else { return }
                 
                 photoList.forEach {
-                    self.imageURLs.append($0.urls.regular)
-                    self.descriptions.append($0.alt_description)
+                     self.imageURLs.append($0.urls.regular)
+                     self.descriptions.append($0.alt_description ?? "")
                 }
                 
                 DispatchQueue.main.async {

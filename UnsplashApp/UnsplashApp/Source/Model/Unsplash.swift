@@ -1,8 +1,8 @@
 import Foundation
 
 struct Photos: Decodable {
-    let alt_description: String
-    let urls: PhotoSize
+    let alt_description: String?
+    let urls: Size
 }
 
 struct PhotoSize: Decodable {

@@ -4,9 +4,7 @@ import Kingfisher
 
 class MainViewController: UIViewController {
     let url = "https://api.unsplash.com/photos?client_id=4f_kJPCZalKnH_vkUEZM9Fktk0KlPar9YwLaFq-KyM0&page=1&per_page=20"
-    var photoList: [Photos] = []
-    var imageURLs: [String] = []
-    var descriptions: [String] = []
+    var unsplashList: [Unsplash] = []
     
     let customCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -45,19 +43,14 @@ class MainViewController: UIViewController {
     }
     
     func getImageData(url: String) {
-        AF.request(url, method: .get).responseDecodable(of: [Photos].self) { response in
+        AF.request(url, method: .get).responseDecodable(of: [Unsplash].self) { response in
             guard response.error == nil else {
                 print(response.error!)
                 return
             }
             
             guard let data = response.value else { return }
-            self.photoList = data
-            
-            self.photoList.forEach {
-                self.imageURLs.append($0.urls.regular)
-                self.descriptions.append($0.alt_description ?? "")
-            }
+            self.unsplashList = data
             
             DispatchQueue.main.async {
                 self.customCollectionView.reloadData()
@@ -76,15 +69,16 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return photoList.count
+        return unsplashList.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = customCollectionView.dequeueReusableCell(withReuseIdentifier: "mainCell", for: indexPath) as! ColleciontViewCell
-        let imageURL = URL(string: imageURLs[indexPath.row])
+        guard let cell = customCollectionView.dequeueReusableCell(withReuseIdentifier: "mainCell", for: indexPath) as? ColleciontViewCell else { return UICollectionViewCell() }
         
-        cell.imageView.kf.setImage(with: imageURL)
-        cell.titleLabel.text = descriptions[indexPath.row]
+        let unsplash = unsplashList[indexPath.row]
+        
+        cell.imageView.kf.setImage(with: URL(string: unsplash.urls.regular))
+        cell.titleLabel.text = unsplash.alt_description ?? "설명 없음"
         cell.backgroundColor = .red
         
         return cell

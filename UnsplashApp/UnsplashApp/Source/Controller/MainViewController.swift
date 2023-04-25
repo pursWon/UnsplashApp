@@ -27,9 +27,9 @@ class MainViewController: UIViewController {
         customCollectionView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(customCollectionView)
         customCollectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 70).isActive = true
-        customCollectionView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 30).isActive = true
+        customCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30).isActive = true
         customCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -30).isActive = true
-        customCollectionView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -30).isActive = true
+        customCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30).isActive = true
         customCollectionView.backgroundColor = .lightGray
     }
     

@@ -11,8 +11,8 @@ class SearchViewController: UIViewController {
     
     func setUpSearchController() {
         let searchController = UISearchController(searchResultsController: nil)
-        self.navigationItem.searchController = searchController
-        self.navigationItem.title = "Search VC"
-        self.navigationItem.searchController?.searchBar.placeholder = "검색어를 입력해주세요."
+        navigationItem.searchController = searchController
+        navigationItem.title = "Search VC"
+        navigationItem.searchController?.searchBar.placeholder = "검색어를 입력해주세요."
     }
 }

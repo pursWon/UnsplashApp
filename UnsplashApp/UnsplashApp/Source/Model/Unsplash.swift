@@ -1,6 +1,6 @@
 import Foundation
 
-struct Photos: Decodable {
+struct Unsplash: Decodable {
     let alt_description: String?
     let urls: PhotoSize
 }

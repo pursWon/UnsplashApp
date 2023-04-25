@@ -1,13 +1,11 @@
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-    
     var window: UIWindow?
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        guard let _ = (scene as? UIWindowScene) else { return }
-        
         guard let windowScene = (scene as? UIWindowScene) else { return }
+        
         window = UIWindow(windowScene: windowScene)
         
         let viewController = MainViewController()
@@ -20,7 +18,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let tabBarController: UITabBarController = UITabBarController()
         tabBarController.setViewControllers([mainViewController, navigationController], animated: true)
-
+        
         if let items = tabBarController.tabBar.items {
             items[0].image = UIImage(systemName: "folder")
             items[0].selectedImage = UIImage(systemName: "folder.fill")
@@ -29,7 +27,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             items[1].image = UIImage(systemName: "circle")
             items[1].selectedImage = UIImage(systemName: "circle.fill")
             items[1].title = "Sub"
-
+            
             items[1].image = UIImage(systemName: "magnifyingglass.circle")
             items[1].selectedImage = UIImage(systemName: "magnifyingglass.circle.fill")
             items[1].title = "Search"

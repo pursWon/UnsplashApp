@@ -4,7 +4,7 @@ import Kingfisher
 
 class MainViewController: UIViewController {
     let url = "https://api.unsplash.com/photos?client_id=4f_kJPCZalKnH_vkUEZM9Fktk0KlPar9YwLaFq-KyM0&page=1&per_page=20"
-    var photoList: [Photos]?
+    var photoList: [Photos] = []
     var imageURLs: [String] = []
     var descriptions: [String] = []
     
@@ -25,27 +25,6 @@ class MainViewController: UIViewController {
         getImageData(url: url)
     }
     
-    func getImageData(url: String) {
-        AF.request(url, method: .get).responseDecodable(of: [Photos].self) { response in
-            if let data = response.value {
-                
-                self.photoList = data
-                guard let photoList = self.photoList else { return }
-                
-                photoList.forEach {
-                     self.imageURLs.append($0.urls.regular)
-                     self.descriptions.append($0.alt_description ?? "")
-                }
-                
-                DispatchQueue.main.async {
-                    self.customCollectionView.reloadData()
-                }
-            } else {
-                print(response.error)
-            }
-        }
-    }
-    
     func configureCollectionView() {
         customCollectionView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(customCollectionView)
@@ -64,6 +43,27 @@ class MainViewController: UIViewController {
         customCollectionView.delegate = self
         customCollectionView.dataSource = self
     }
+    
+    func getImageData(url: String) {
+        AF.request(url, method: .get).responseDecodable(of: [Photos].self) { response in
+            guard response.error == nil else {
+                print(response.error!)
+                return
+            }
+            
+            guard let data = response.value else { return }
+            self.photoList = data
+            
+            self.photoList.forEach {
+                self.imageURLs.append($0.urls.regular)
+                self.descriptions.append($0.alt_description ?? "")
+            }
+            
+            DispatchQueue.main.async {
+                self.customCollectionView.reloadData()
+            }
+        }
+    }
 }
 
 extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -76,8 +76,6 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        guard let photoList = photoList else { return 0 }
-        
         return photoList.count
     }
     

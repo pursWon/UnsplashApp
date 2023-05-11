@@ -2,7 +2,7 @@
 
 ### Home VC
 
-- [ ] Home 탭을 완성한다.
+- [x] Home 탭을 완성한다.
   - [x] UICollectionView를 사용하여 UI를 구현한다.
   - [x] API 사용을 위한 프로젝트 세팅을 한다.
   - [x] API 호출 시 사용할 모델을 생성한다.

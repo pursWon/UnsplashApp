@@ -2,18 +2,24 @@
 
 ### Home VC
 
-- [x] CollectionView 만들기
-  - [x] CollectionView에 이미지와 설명을 출력 
-    - [x] Unsplash 데이터 모델 작성
-    - [x] Unsplash API 데이터 통신하기
+- [ ] Home 탭을 완성한다.
+  - [x] UICollectionView를 사용하여 UI를 구현한다.
+  - [x] API 사용을 위한 프로젝트 세팅을 한다.
+  - [x] API 호출 시 사용할 모델을 생성한다.
+  - [x] API 호출 함수를 구현하고, 화면에 그 결과를 보여준다.
+  - [x] 코드 리팩토링을 진행한다.   
+- [ ] 무한 스크롤을 구현한다.
 
 ### SceneDelegate
 
-- [x] TabController 만들기
+- [x] UITabbarController를 사용하여 두 개의 탭을 생성한다.
 
 ### Search VC
 
-- [x] SearchController 만들기
-- [ ] TableView 만들기
-  - [ ] 검색을 했을 때 나오는 결과를 TableView에서 보여주기 
-  - [ ] 검색을 안 했을 때 나오는 결과를 TableView에서 보여주기 
+- [ ] Search 탭을 완성한다.
+  - [x] UISearchController를 사용하여 검색창이 화면에 보이도록 하기
+  - [ ] 입력한 검색어 따라 관련 이미지가 보여지도록 한다. 
+  - [ ] 검색어와 일치하는 이미지가 없는 경우, "검색 결과 없음"이라는 텍스트를 화면 가운데에 띄워주기로 한다.
+  - [ ] Unsplash에서 검색 관련 API를 가져와 모델을 만든다.
+  - [ ] 검색 API 함수를 만든다.
+- [ ] 무한 스크롤을 구현한다.

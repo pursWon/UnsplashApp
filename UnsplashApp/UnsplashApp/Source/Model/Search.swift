@@ -1,14 +1,14 @@
 import Foundation
 
-struct Search {
-    let results: [Results]
+struct Search: Decodable {
+    let results: [Result]
 }
 
-struct Results {
+struct Result: Decodable {
     let description: String?
     let urls: Urls
 }
 
-struct Urls {
-    let regular: String
+struct Urls: Decodable {
+    let thumb: String
 }

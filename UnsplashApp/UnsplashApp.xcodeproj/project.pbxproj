@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D0B074E92A15C0090036888F /* Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B074E82A15C0090036888F /* Search.swift */; };
 		D0CF183229E3E7460031B475 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0CF183129E3E7460031B475 /* AppDelegate.swift */; };
 		D0CF183429E3E7460031B475 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0CF183329E3E7460031B475 /* SceneDelegate.swift */; };
 		D0CF183629E3E7460031B475 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0CF183529E3E7460031B475 /* MainViewController.swift */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D0B074E82A15C0090036888F /* Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Search.swift; sourceTree = "<group>"; };
 		D0CF182E29E3E7460031B475 /* UnsplashApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UnsplashApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0CF183129E3E7460031B475 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D0CF183329E3E7460031B475 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -73,6 +75,7 @@
 			isa = PBXGroup;
 			children = (
 				D0CF184929E3E9B50031B475 /* Unsplash.swift */,
+				D0B074E82A15C0090036888F /* Search.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -195,6 +198,7 @@
 				D0CF183629E3E7460031B475 /* MainViewController.swift in Sources */,
 				D0CF183229E3E7460031B475 /* AppDelegate.swift in Sources */,
 				D0CF185529E43F780031B475 /* CollectionViewCell.swift in Sources */,
+				D0B074E92A15C0090036888F /* Search.swift in Sources */,
 				D0CF183429E3E7460031B475 /* SceneDelegate.swift in Sources */,
 				D0CF184A29E3E9B50031B475 /* Unsplash.swift in Sources */,
 			);

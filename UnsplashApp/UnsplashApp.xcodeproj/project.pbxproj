@@ -92,6 +92,7 @@
 			isa = PBXGroup;
 			children = (
 				D0CF185429E43F780031B475 /* CollectionViewCell.swift */,
+				D0C4D39E29F58A6F00491588 /* SearchViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -195,6 +196,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D0C4D39F29F58A6F00491588 /* SearchViewController.swift in Sources */,
 				D0CF183629E3E7460031B475 /* MainViewController.swift in Sources */,
 				D0CF183229E3E7460031B475 /* AppDelegate.swift in Sources */,
 				D0CF185529E43F780031B475 /* CollectionViewCell.swift in Sources */,

@@ -17,6 +17,8 @@
 		D0CF185529E43F780031B475 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0CF185429E43F780031B475 /* CollectionViewCell.swift */; };
 		D0CF185829EA69CA0031B475 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = D0CF185729EA69CA0031B475 /* Alamofire */; };
 		D0CF185B29ECF0990031B475 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = D0CF185A29ECF0990031B475 /* Kingfisher */; };
+		D0E0D6EC2A455E6C0034FF1C /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E0D6EB2A455E6C0034FF1C /* SearchViewController.swift */; };
+		D0E0D6EF2A4563020034FF1C /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = D0E0D6EE2A4563020034FF1C /* Then */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +32,7 @@
 		D0CF183F29E3E7470031B475 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D0CF184929E3E9B50031B475 /* Unsplash.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Unsplash.swift; sourceTree = "<group>"; };
 		D0CF185429E43F780031B475 /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CollectionViewCell.swift; path = ../../../../../Documents/GitHub/CollectionViewCell.swift; sourceTree = "<group>"; };
+		D0E0D6EB2A455E6C0034FF1C /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -38,6 +41,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D0CF185B29ECF0990031B475 /* Kingfisher in Frameworks */,
+				D0E0D6EF2A4563020034FF1C /* Then in Frameworks */,
 				D0CF185829EA69CA0031B475 /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -84,6 +88,7 @@
 			isa = PBXGroup;
 			children = (
 				D0CF183529E3E7460031B475 /* MainViewController.swift */,
+				D0E0D6EB2A455E6C0034FF1C /* SearchViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -92,7 +97,6 @@
 			isa = PBXGroup;
 			children = (
 				D0CF185429E43F780031B475 /* CollectionViewCell.swift */,
-				D0C4D39E29F58A6F00491588 /* SearchViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -137,6 +141,7 @@
 			packageProductDependencies = (
 				D0CF185729EA69CA0031B475 /* Alamofire */,
 				D0CF185A29ECF0990031B475 /* Kingfisher */,
+				D0E0D6EE2A4563020034FF1C /* Then */,
 			);
 			productName = UnsplashApp;
 			productReference = D0CF182E29E3E7460031B475 /* UnsplashApp.app */;
@@ -169,6 +174,7 @@
 			packageReferences = (
 				D0CF185629EA69CA0031B475 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				D0CF185929ECF0990031B475 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				D0E0D6ED2A4563020034FF1C /* XCRemoteSwiftPackageReference "Then" */,
 			);
 			productRefGroup = D0CF182F29E3E7460031B475 /* Products */;
 			projectDirPath = "";
@@ -196,8 +202,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D0C4D39F29F58A6F00491588 /* SearchViewController.swift in Sources */,
 				D0CF183629E3E7460031B475 /* MainViewController.swift in Sources */,
+				D0E0D6EC2A455E6C0034FF1C /* SearchViewController.swift in Sources */,
 				D0CF183229E3E7460031B475 /* AppDelegate.swift in Sources */,
 				D0CF185529E43F780031B475 /* CollectionViewCell.swift in Sources */,
 				D0B074E92A15C0090036888F /* Search.swift in Sources */,
@@ -428,6 +434,14 @@
 				minimumVersion = 7.0.0;
 			};
 		};
+		D0E0D6ED2A4563020034FF1C /* XCRemoteSwiftPackageReference "Then" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/devxoul/Then";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -440,6 +454,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = D0CF185929ECF0990031B475 /* XCRemoteSwiftPackageReference "Kingfisher" */;
 			productName = Kingfisher;
+		};
+		D0E0D6EE2A4563020034FF1C /* Then */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D0E0D6ED2A4563020034FF1C /* XCRemoteSwiftPackageReference "Then" */;
+			productName = Then;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

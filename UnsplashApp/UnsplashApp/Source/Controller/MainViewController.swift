@@ -3,9 +3,6 @@ import Alamofire
 import Kingfisher
 
 class MainViewController: UIViewController {
-    let url = "https://api.unsplash.com/photos?client_id=4f_kJPCZalKnH_vkUEZM9Fktk0KlPar9YwLaFq-KyM0&page=1&per_page=20"
-    var unsplashList: [Unsplash] = []
-    
     let customCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let cv = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.init())
@@ -13,24 +10,34 @@ class MainViewController: UIViewController {
         return cv
     }()
     
+    let url = "https://api.unsplash.com/photos?client_id=4f_kJPCZalKnH_vkUEZM9Fktk0KlPar9YwLaFq-KyM0&page=1&per_page=20"
+    
+    var unsplashList: [Unsplash] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .darkGray
+        setView()
         configureCollectionView()
         registerCollectionView()
         collectionViewDelegate()
         getImageData(url: url)
     }
     
+    func setView() {
+        view.backgroundColor = .darkGray
+        view.addSubview(customCollectionView)
+    }
+    
     func configureCollectionView() {
         customCollectionView.translatesAutoresizingMaskIntoConstraints = false
-        self.view.addSubview(customCollectionView)
-        customCollectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 70).isActive = true
-        customCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30).isActive = true
-        customCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -30).isActive = true
-        customCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30).isActive = true
-        customCollectionView.backgroundColor = .lightGray
+        
+        NSLayoutConstraint.activate([
+            customCollectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 70),
+            customCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
+            customCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -30),
+            customCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
+        ])
     }
     
     func registerCollectionView() {
@@ -40,6 +47,7 @@ class MainViewController: UIViewController {
     func collectionViewDelegate() {
         customCollectionView.delegate = self
         customCollectionView.dataSource = self
+        customCollectionView.backgroundColor = .lightGray
     }
     
     func getImageData(url: String) {

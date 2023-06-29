@@ -12,4 +12,3 @@ struct Result: Decodable {
 struct Urls: Decodable {
     let thumb: String
 }
-

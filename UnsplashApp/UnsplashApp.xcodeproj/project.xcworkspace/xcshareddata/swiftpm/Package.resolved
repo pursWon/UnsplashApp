@@ -17,6 +17,15 @@
         "revision" : "af4be924ad984cf4d16f4ae4df424e79a443d435",
         "version" : "7.6.2"
       }
+    },
+    {
+      "identity" : "then",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/devxoul/Then",
+      "state" : {
+        "revision" : "d41ef523faef0f911369f79c0b96815d9dbb6d7a",
+        "version" : "3.0.0"
+      }
     }
   ],
   "version" : 2

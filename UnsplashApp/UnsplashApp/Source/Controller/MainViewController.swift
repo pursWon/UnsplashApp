@@ -50,6 +50,7 @@ class MainViewController: UIViewController {
             }
             
             guard let data = response.value else { return }
+            
             self.unsplashList = data
             
             DispatchQueue.main.async {
@@ -78,7 +79,7 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
         let unsplash = unsplashList[indexPath.row]
         
         cell.imageView.kf.setImage(with: URL(string: unsplash.urls.regular))
-        cell.titleLabel.text = unsplash.alt_description ?? "설명 없음"
+        cell.titleLabel.text = unsplash.description ?? "설명 없음"
         cell.backgroundColor = .red
         
         return cell

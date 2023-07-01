@@ -5,12 +5,17 @@ import Kingfisher
 class MainViewController: UIViewController {
     let customCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        let cv = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.init())
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.init())
         
-        return cv
+        return collectionView
     }()
     
-    let url = "https://api.unsplash.com/photos?client_id=4f_kJPCZalKnH_vkUEZM9Fktk0KlPar9YwLaFq-KyM0&page=1&per_page=20"
+    let parameters: [String] = [
+    "https://api.unsplash.com/photos?",
+    "client_id=4f_kJPCZalKnH_vkUEZM9Fktk0KlPar9YwLaFq-KyM0",
+    "&page=1",
+    "&per_page=20"
+    ]
     
     var unsplashList: [Unsplash] = []
     
@@ -21,7 +26,7 @@ class MainViewController: UIViewController {
         configureCollectionView()
         registerCollectionView()
         collectionViewDelegate()
-        getImageData(url: url)
+        getImageData(url: parameters[0], client_Id: parameters[1], page: parameters[2], perPage: parameters[3])
     }
     
     func setView() {
@@ -50,14 +55,17 @@ class MainViewController: UIViewController {
         customCollectionView.backgroundColor = .lightGray
     }
     
-    func getImageData(url: String) {
-        AF.request(url, method: .get).responseDecodable(of: [Unsplash].self) { response in
+    func getImageData(url: String, client_Id: String, page: String, perPage: String) {
+        AF.request(url + client_Id + page + perPage, method: .get).responseDecodable(of: [Unsplash].self) { response in
+            
             guard response.error == nil else {
                 print(response.error!)
+                
                 return
             }
             
             guard let data = response.value else { return }
+            
             self.unsplashList = data
             
             DispatchQueue.main.async {
@@ -67,7 +75,7 @@ class MainViewController: UIViewController {
     }
 }
 
-extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension MainViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let leftAndRightPaddings: CGFloat = 20
         let numberOfItemsPerRow: CGFloat = 2

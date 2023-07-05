@@ -46,7 +46,7 @@ class MainViewController: UIViewController {
     }
     
     func registerCollectionView() {
-        customCollectionView.register(ColleciontViewCell.classForCoder(), forCellWithReuseIdentifier: "mainCell")
+        customCollectionView.register(SearchCollectionViewCell.classForCoder(), forCellWithReuseIdentifier: "mainCell")
     }
     
     func collectionViewDelegate() {
@@ -89,13 +89,12 @@ extension MainViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = customCollectionView.dequeueReusableCell(withReuseIdentifier: "mainCell", for: indexPath) as? ColleciontViewCell else { return UICollectionViewCell() }
+        guard let cell = customCollectionView.dequeueReusableCell(withReuseIdentifier: "mainCell", for: indexPath) as? SearchCollectionViewCell else { return UICollectionViewCell() }
         
         let unsplash = unsplashList[indexPath.row]
         
-        cell.imageView.kf.setImage(with: URL(string: unsplash.urls.regular))
-        cell.titleLabel.text = unsplash.alt_description ?? "설명 없음"
-        cell.backgroundColor = .red
+        cell.searchImageView.kf.setImage(with: URL(string: unsplash.urls.regular))
+        cell.descriptionLabel.text = unsplash.description ?? "설명 없음"
         
         return cell
     }

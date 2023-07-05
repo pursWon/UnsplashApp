@@ -95,7 +95,7 @@ class SearchViewController: UIViewController {
     }
     
     func registerCollectionView() {
-        searchCollectionView.register(ColleciontViewCell.classForCoder(), forCellWithReuseIdentifier: "searchCell")
+        searchCollectionView.register(SearchCollectionViewCell.classForCoder(), forCellWithReuseIdentifier: "searchCell")
     }
     
     func setUpDelegates() {
@@ -143,11 +143,11 @@ extension SearchViewController: UICollectionViewDelegateFlowLayout, UICollection
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = searchCollectionView.dequeueReusableCell(withReuseIdentifier: "searchCell", for: indexPath) as? ColleciontViewCell else { return UICollectionViewCell() }
+        guard let cell = searchCollectionView.dequeueReusableCell(withReuseIdentifier: "searchCell", for: indexPath) as? SearchCollectionViewCell else { return UICollectionViewCell() }
         
-        cell.titleLabel.text = searchData[indexPath.row].description ?? "설명 없음"
-        cell.titleLabel.backgroundColor = .white
-        cell.imageView.kf.setImage(with: URL(string: searchData[indexPath.row].urls.thumb))
+        cell.descriptionLabel.text = searchData[indexPath.row].description ?? "설명 없음"
+        cell.descriptionLabel.backgroundColor = .white
+        cell.searchImageView.kf.setImage(with: URL(string: searchData[indexPath.row].urls.thumb))
         
         return cell
     }

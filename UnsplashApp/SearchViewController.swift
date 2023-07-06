@@ -24,6 +24,12 @@ class SearchViewController: UIViewController {
         $0.tintColor = .red
     }
     
+    let emptyLabel: UILabel = UILabel().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.text = "검색 결과가 존재하지 않습니다"
+        $0.font = .boldSystemFont(ofSize: 21)
+    }
+    
     var isFiltered: Bool {
         let searchController = self.navigationItem.searchController
         
@@ -46,7 +52,7 @@ class SearchViewController: UIViewController {
     
     func setView() {
         view.backgroundColor = .white
-        let views = [searchCollectionView, searchBar, searchButton]
+        let views = [searchCollectionView, searchBar, searchButton, emptyLabel]
         
         views.forEach {
             view.addSubview($0)
@@ -56,11 +62,17 @@ class SearchViewController: UIViewController {
     func configure() {
         setUpDelegates()
         searchbuttonAction()
+        setHidden()
         registerCollectionView()
     }
     
     func searchbuttonAction() {
         searchButton.addTarget(self, action: #selector(searchButtonClicked), for: .touchUpInside)
+    }
+    
+    func setHidden() {
+        searchCollectionView.isHidden = true
+        emptyLabel.isHidden = true
     }
     
     func setConstraints() {
@@ -81,7 +93,10 @@ class SearchViewController: UIViewController {
             searchButton.leadingAnchor.constraint(equalTo: searchBar.trailingAnchor, constant: 10),
             searchButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
             searchButton.topAnchor.constraint(equalTo: searchBar.topAnchor),
-            searchButton.centerYAnchor.constraint(equalTo: searchBar.centerYAnchor)
+            searchButton.centerYAnchor.constraint(equalTo: searchBar.centerYAnchor),
+            
+            emptyLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            emptyLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
     }
     
@@ -116,6 +131,9 @@ class SearchViewController: UIViewController {
             guard let data = response.value else { return }
             
             self.searchData = data.results
+            
+            self.emptyLabel.isHidden = self.searchData.isEmpty ? false : true
+            self.searchCollectionView.isHidden = self.searchData.isEmpty ? true : false
             
             DispatchQueue.main.async {
                 self.searchCollectionView.reloadData()

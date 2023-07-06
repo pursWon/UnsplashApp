@@ -119,6 +119,13 @@ class SearchViewController: UIViewController {
         
         components?.queryItems = [client_id, page, per_page, query]
         
+        guard query.value != "" else {
+            emptyLabel.text = "검색어를 입력하세요"
+            emptyLabel.isHidden = false
+            
+            return
+        }
+        
         guard let url = components?.url else { return }
         
         AF.request(url, method: .get).responseDecodable(of: Search.self) { response in
@@ -132,8 +139,14 @@ class SearchViewController: UIViewController {
             
             self.searchData = data.results
             
-            self.emptyLabel.isHidden = self.searchData.isEmpty ? false : true
-            self.searchCollectionView.isHidden = self.searchData.isEmpty ? true : false
+            if self.searchData.isEmpty {
+                self.emptyLabel.text = "검색 결과가 존재하지 않습니다"
+                self.searchCollectionView.isHidden = true
+                self.emptyLabel.isHidden = false
+            } else {
+                self.searchCollectionView.isHidden = false
+                self.emptyLabel.isHidden = true
+            }
             
             DispatchQueue.main.async {
                 self.searchCollectionView.reloadData()

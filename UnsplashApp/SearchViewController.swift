@@ -26,7 +26,6 @@ class SearchViewController: UIViewController {
     
     let emptyLabel: UILabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.text = "검색 결과가 존재하지 않습니다"
         $0.font = .boldSystemFont(ofSize: 21)
     }
     
@@ -119,13 +118,6 @@ class SearchViewController: UIViewController {
         
         components?.queryItems = [client_id, page, per_page, query]
         
-        guard query.value != "" else {
-            emptyLabel.text = "검색어를 입력하세요"
-            emptyLabel.isHidden = false
-            
-            return
-        }
-        
         guard let url = components?.url else { return }
         
         AF.request(url, method: .get).responseDecodable(of: Search.self) { response in
@@ -139,6 +131,15 @@ class SearchViewController: UIViewController {
             
             self.searchData = data.results
             
+            guard query.value != "" else {
+                self.emptyLabel.text = "검색어를 입력하세요"
+                self.emptyLabel.isHidden = false
+                self.searchCollectionView.isHidden = true
+                self.searchCollectionView.reloadData()
+                
+                return
+            }
+            
             if self.searchData.isEmpty {
                 self.emptyLabel.text = "검색 결과가 존재하지 않습니다"
                 self.searchCollectionView.isHidden = true
@@ -148,9 +149,7 @@ class SearchViewController: UIViewController {
                 self.emptyLabel.isHidden = true
             }
             
-            DispatchQueue.main.async {
-                self.searchCollectionView.reloadData()
-            }
+            self.searchCollectionView.reloadData()
         }
     }
     

@@ -46,6 +46,4 @@ class SearchCollectionViewCell: UICollectionViewCell {
             descriptionLabel.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
         ])
     }
-    
-    
 }

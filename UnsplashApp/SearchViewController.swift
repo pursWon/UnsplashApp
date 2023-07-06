@@ -24,15 +24,6 @@ class SearchViewController: UIViewController {
         $0.tintColor = .red
     }
     
-    let url: String = "https://api.unsplash.com/search/photos?"
-    
-    let parameters: [String] = [
-        "client_id=4f_kJPCZalKnH_vkUEZM9Fktk0KlPar9YwLaFq-KyM0",
-        "&page=1",
-        "&per_page=20",
-        "&query="
-    ]
-    
     var isFiltered: Bool {
         let searchController = self.navigationItem.searchController
         
@@ -104,8 +95,18 @@ class SearchViewController: UIViewController {
         searchCollectionView.backgroundColor = .lightGray
     }
     
-    func searchImageData(url: String, client_Id: String, page: String, perPage: String ,query: String) {
-        AF.request(url + client_Id + page + perPage + query, method: .get).responseDecodable(of: Search.self) { response in
+    func searchImageData(query: String) {
+        var components = URLComponents(string: "https://api.unsplash.com/search/photos")
+        let client_id = URLQueryItem(name: "client_id", value: "4f_kJPCZalKnH_vkUEZM9Fktk0KlPar9YwLaFq-KyM0")
+        let page = URLQueryItem(name: "page", value: "1")
+        let per_page = URLQueryItem(name: "per_page", value: "20")
+        let query = URLQueryItem(name: "query", value: query)
+        
+        components?.queryItems = [client_id, page, per_page, query]
+        
+        guard let url = components?.url else { return }
+        
+        AF.request(url, method: .get).responseDecodable(of: Search.self) { response in
             guard response.error == nil else {
                 print(response.error?.localizedDescription)
                 
@@ -125,7 +126,7 @@ class SearchViewController: UIViewController {
     @objc func searchButtonClicked() {
         guard let searchText = searchBar.text else { return }
         
-        searchImageData(url: url, client_Id: parameters[0], page: parameters[1], perPage: parameters[2], query: parameters[3] + searchText)
+        searchImageData(query: searchText)
     }
 }
 

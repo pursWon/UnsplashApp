@@ -1,7 +1,7 @@
 import Foundation
 
 struct Unsplash: Decodable {
-    let alt_description: String?
+    let description: String?
     let urls: PhotoSize
 }
 

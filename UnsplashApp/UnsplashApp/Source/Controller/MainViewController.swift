@@ -10,13 +10,6 @@ class MainViewController: UIViewController {
         return collectionView
     }()
     
-    let parameters: [String] = [
-    "https://api.unsplash.com/photos?",
-    "client_id=4f_kJPCZalKnH_vkUEZM9Fktk0KlPar9YwLaFq-KyM0",
-    "&page=1",
-    "&per_page=20"
-    ]
-    
     var unsplashList: [Unsplash] = []
     
     override func viewDidLoad() {
@@ -26,7 +19,7 @@ class MainViewController: UIViewController {
         configureCollectionView()
         registerCollectionView()
         collectionViewDelegate()
-        getImageData(url: parameters[0], client_Id: parameters[1], page: parameters[2], perPage: parameters[3])
+        getImageData()
     }
     
     func setView() {
@@ -46,7 +39,7 @@ class MainViewController: UIViewController {
     }
     
     func registerCollectionView() {
-        customCollectionView.register(ColleciontViewCell.classForCoder(), forCellWithReuseIdentifier: "mainCell")
+        customCollectionView.register(SearchCollectionViewCell.classForCoder(), forCellWithReuseIdentifier: "mainCell")
     }
     
     func collectionViewDelegate() {
@@ -55,8 +48,16 @@ class MainViewController: UIViewController {
         customCollectionView.backgroundColor = .lightGray
     }
     
-    func getImageData(url: String, client_Id: String, page: String, perPage: String) {
-        AF.request(url + client_Id + page + perPage, method: .get).responseDecodable(of: [Unsplash].self) { response in
+    func getImageData() {
+        var components = URLComponents(string: "https://api.unsplash.com/photos")
+        let client_id = URLQueryItem(name: "client_id", value: "4f_kJPCZalKnH_vkUEZM9Fktk0KlPar9YwLaFq-KyM0")
+        let page = URLQueryItem(name: "page", value: "1")
+        let per_page = URLQueryItem(name: "per_page", value: "20")
+        components?.queryItems = [client_id, page, per_page]
+        
+        guard let url = components?.url else { return }
+        
+        AF.request(url, method: .get).responseDecodable(of: [Unsplash].self) { response in
             
             guard response.error == nil else {
                 print(response.error!)
@@ -89,13 +90,12 @@ extension MainViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = customCollectionView.dequeueReusableCell(withReuseIdentifier: "mainCell", for: indexPath) as? ColleciontViewCell else { return UICollectionViewCell() }
+        guard let cell = customCollectionView.dequeueReusableCell(withReuseIdentifier: "mainCell", for: indexPath) as? SearchCollectionViewCell else { return UICollectionViewCell() }
         
         let unsplash = unsplashList[indexPath.row]
         
-        cell.imageView.kf.setImage(with: URL(string: unsplash.urls.regular))
-        cell.titleLabel.text = unsplash.alt_description ?? "설명 없음"
-        cell.backgroundColor = .red
+        cell.searchImageView.kf.setImage(with: URL(string: unsplash.urls.regular))
+        cell.descriptionLabel.text = unsplash.description ?? "설명 없음"
         
         return cell
     }

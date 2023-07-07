@@ -24,14 +24,10 @@ class SearchViewController: UIViewController {
         $0.tintColor = .red
     }
     
-    let url: String = "https://api.unsplash.com/search/photos?"
-    
-    let parameters: [String] = [
-        "client_id=4f_kJPCZalKnH_vkUEZM9Fktk0KlPar9YwLaFq-KyM0",
-        "&page=1",
-        "&per_page=20",
-        "&query="
-    ]
+    let emptyLabel: UILabel = UILabel().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.font = .boldSystemFont(ofSize: 21)
+    }
     
     var isFiltered: Bool {
         let searchController = self.navigationItem.searchController
@@ -55,7 +51,7 @@ class SearchViewController: UIViewController {
     
     func setView() {
         view.backgroundColor = .white
-        let views = [searchCollectionView, searchBar, searchButton]
+        let views = [searchCollectionView, searchBar, searchButton, emptyLabel]
         
         views.forEach {
             view.addSubview($0)
@@ -65,11 +61,17 @@ class SearchViewController: UIViewController {
     func configure() {
         setUpDelegates()
         searchbuttonAction()
+        setHidden()
         registerCollectionView()
     }
     
     func searchbuttonAction() {
         searchButton.addTarget(self, action: #selector(searchButtonClicked), for: .touchUpInside)
+    }
+    
+    func setHidden() {
+        searchCollectionView.isHidden = true
+        emptyLabel.isHidden = true
     }
     
     func setConstraints() {
@@ -90,12 +92,15 @@ class SearchViewController: UIViewController {
             searchButton.leadingAnchor.constraint(equalTo: searchBar.trailingAnchor, constant: 10),
             searchButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
             searchButton.topAnchor.constraint(equalTo: searchBar.topAnchor),
-            searchButton.centerYAnchor.constraint(equalTo: searchBar.centerYAnchor)
+            searchButton.centerYAnchor.constraint(equalTo: searchBar.centerYAnchor),
+            
+            emptyLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            emptyLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
     }
     
     func registerCollectionView() {
-        searchCollectionView.register(ColleciontViewCell.classForCoder(), forCellWithReuseIdentifier: "searchCell")
+        searchCollectionView.register(SearchCollectionViewCell.classForCoder(), forCellWithReuseIdentifier: "searchCell")
     }
     
     func setUpDelegates() {
@@ -104,8 +109,18 @@ class SearchViewController: UIViewController {
         searchCollectionView.backgroundColor = .lightGray
     }
     
-    func searchImageData(url: String, client_Id: String, page: String, perPage: String ,query: String) {
-        AF.request(url + client_Id + page + perPage + query, method: .get).responseDecodable(of: Search.self) { response in
+    func searchImageData(query: String) {
+        var components = URLComponents(string: "https://api.unsplash.com/search/photos")
+        let client_id = URLQueryItem(name: "client_id", value: "4f_kJPCZalKnH_vkUEZM9Fktk0KlPar9YwLaFq-KyM0")
+        let page = URLQueryItem(name: "page", value: "1")
+        let per_page = URLQueryItem(name: "per_page", value: "20")
+        let query = URLQueryItem(name: "query", value: query)
+        
+        components?.queryItems = [client_id, page, per_page, query]
+        
+        guard let url = components?.url else { return }
+        
+        AF.request(url, method: .get).responseDecodable(of: Search.self) { response in
             guard response.error == nil else {
                 print(response.error?.localizedDescription)
                 
@@ -116,16 +131,32 @@ class SearchViewController: UIViewController {
             
             self.searchData = data.results
             
-            DispatchQueue.main.async {
+            guard query.value != "" else {
+                self.emptyLabel.text = "검색어를 입력하세요"
+                self.emptyLabel.isHidden = false
+                self.searchCollectionView.isHidden = true
                 self.searchCollectionView.reloadData()
+                
+                return
             }
+            
+            if self.searchData.isEmpty {
+                self.emptyLabel.text = "검색 결과가 존재하지 않습니다"
+                self.searchCollectionView.isHidden = true
+                self.emptyLabel.isHidden = false
+            } else {
+                self.searchCollectionView.isHidden = false
+                self.emptyLabel.isHidden = true
+            }
+            
+            self.searchCollectionView.reloadData()
         }
     }
     
     @objc func searchButtonClicked() {
         guard let searchText = searchBar.text else { return }
         
-        searchImageData(url: url, client_Id: parameters[0], page: parameters[1], perPage: parameters[2], query: parameters[3] + searchText)
+        searchImageData(query: searchText)
     }
 }
 
@@ -143,11 +174,11 @@ extension SearchViewController: UICollectionViewDelegateFlowLayout, UICollection
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = searchCollectionView.dequeueReusableCell(withReuseIdentifier: "searchCell", for: indexPath) as? ColleciontViewCell else { return UICollectionViewCell() }
+        guard let cell = searchCollectionView.dequeueReusableCell(withReuseIdentifier: "searchCell", for: indexPath) as? SearchCollectionViewCell else { return UICollectionViewCell() }
         
-        cell.titleLabel.text = searchData[indexPath.row].description ?? "설명 없음"
-        cell.titleLabel.backgroundColor = .white
-        cell.imageView.kf.setImage(with: URL(string: searchData[indexPath.row].urls.thumb))
+        cell.descriptionLabel.text = searchData[indexPath.row].description ?? "설명 없음"
+        cell.descriptionLabel.backgroundColor = .white
+        cell.searchImageView.kf.setImage(with: URL(string: searchData[indexPath.row].urls.thumb))
         
         return cell
     }

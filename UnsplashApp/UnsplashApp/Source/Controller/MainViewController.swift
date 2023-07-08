@@ -23,7 +23,7 @@ class MainViewController: UIViewController {
     }
     
     func setView() {
-        view.backgroundColor = .darkGray
+        view.backgroundColor = .white
         view.addSubview(customCollectionView)
     }
     

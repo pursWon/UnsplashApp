@@ -76,6 +76,7 @@ class SearchViewController: UIViewController {
         searchbuttonAction()
         setHidden()
         registerCollectionView()
+        setCollectionViewBorder()
     }
     
     func searchbuttonAction() {
@@ -85,6 +86,11 @@ class SearchViewController: UIViewController {
     func setHidden() {
         searchCollectionView.isHidden = true
         emptyLabel.isHidden = true
+    }
+    
+    func setCollectionViewBorder() {
+        searchCollectionView.layer.borderWidth = 2.0
+        searchCollectionView.layer.borderColor = UIColor.black.cgColor
     }
     
     func setConstraints() {
@@ -190,7 +196,7 @@ extension SearchViewController: UICollectionViewDelegateFlowLayout, UICollection
         guard let cell = searchCollectionView.dequeueReusableCell(withReuseIdentifier: "searchCell", for: indexPath) as? SearchCollectionViewCell else { return UICollectionViewCell() }
         
         cell.descriptionLabel.text = searchData[indexPath.row].description ?? "설명 없음"
-        cell.descriptionLabel.backgroundColor = .white
+        cell.descriptionLabel.backgroundColor = .orange
         cell.searchImageView.kf.setImage(with: URL(string: searchData[indexPath.row].urls.thumb))
         
         return cell

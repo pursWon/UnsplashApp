@@ -20,10 +20,11 @@ class MainViewController: UIViewController {
         registerCollectionView()
         collectionViewDelegate()
         getImageData()
+        setCollectionViewBorder()
     }
     
     func setView() {
-        view.backgroundColor = .darkGray
+        view.backgroundColor = .white
         view.addSubview(customCollectionView)
     }
     
@@ -46,6 +47,11 @@ class MainViewController: UIViewController {
         customCollectionView.delegate = self
         customCollectionView.dataSource = self
         customCollectionView.backgroundColor = .lightGray
+    }
+    
+    func setCollectionViewBorder() {
+        customCollectionView.layer.borderWidth = 2.0
+        customCollectionView.layer.borderColor = UIColor.black.cgColor
     }
     
     func getImageData() {

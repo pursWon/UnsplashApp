@@ -13,6 +13,19 @@ class SearchViewController: UIViewController {
     
     let searchBar: UISearchBar = UISearchBar().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.setImage(UIImage(systemName: "photo.on.rectangle.angled"), for: .search, state: .normal)
+        $0.placeholder = "검색어를 입력하세요"
+        $0.searchBarStyle = .minimal
+        
+        if let textField = $0.value(forKey: "searchField") as? UITextField {
+            textField.backgroundColor = .lightGray
+            textField.attributedPlaceholder = NSAttributedString(string: textField.placeholder ?? "", attributes: [NSAttributedString.Key.foregroundColor : UIColor.lightText])
+            textField.textColor = .systemGray6
+            
+            if let leftView = textField.leftView as? UIImageView {
+                leftView.tintColor = .orange
+            }
+        }
     }
     
     let searchButton: UIButton = UIButton().then {
@@ -21,7 +34,7 @@ class SearchViewController: UIViewController {
         
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.setImage(image, for: .normal)
-        $0.tintColor = .red
+        $0.tintColor = .orange
     }
     
     let emptyLabel: UILabel = UILabel().then {
@@ -63,6 +76,7 @@ class SearchViewController: UIViewController {
         searchbuttonAction()
         setHidden()
         registerCollectionView()
+        setCollectionViewBorder()
     }
     
     func searchbuttonAction() {
@@ -74,11 +88,16 @@ class SearchViewController: UIViewController {
         emptyLabel.isHidden = true
     }
     
+    func setCollectionViewBorder() {
+        searchCollectionView.layer.borderWidth = 2.0
+        searchCollectionView.layer.borderColor = UIColor.black.cgColor
+    }
+    
     func setConstraints() {
         searchCollectionView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            searchCollectionView.topAnchor.constraint(equalTo: searchBar.bottomAnchor),
+            searchCollectionView.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 40),
             searchCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
             searchCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -90),
             searchCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
@@ -89,8 +108,8 @@ class SearchViewController: UIViewController {
             searchBar.bottomAnchor.constraint(equalTo: searchCollectionView.topAnchor),
             searchBar.centerYAnchor.constraint(equalTo: searchButton.centerYAnchor),
             
-            searchButton.leadingAnchor.constraint(equalTo: searchBar.trailingAnchor, constant: 10),
-            searchButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
+            searchButton.leadingAnchor.constraint(equalTo: searchBar.trailingAnchor, constant: 0),
+            searchButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
             searchButton.topAnchor.constraint(equalTo: searchBar.topAnchor),
             searchButton.centerYAnchor.constraint(equalTo: searchBar.centerYAnchor),
             
@@ -132,7 +151,7 @@ class SearchViewController: UIViewController {
             self.searchData = data.results
             
             guard query.value != "" else {
-                self.emptyLabel.text = "검색어를 입력하세요"
+                self.emptyLabel.text = "검색어를 입력하지 않았습니다"
                 self.emptyLabel.isHidden = false
                 self.searchCollectionView.isHidden = true
                 self.searchCollectionView.reloadData()
@@ -177,7 +196,7 @@ extension SearchViewController: UICollectionViewDelegateFlowLayout, UICollection
         guard let cell = searchCollectionView.dequeueReusableCell(withReuseIdentifier: "searchCell", for: indexPath) as? SearchCollectionViewCell else { return UICollectionViewCell() }
         
         cell.descriptionLabel.text = searchData[indexPath.row].description ?? "설명 없음"
-        cell.descriptionLabel.backgroundColor = .white
+        cell.descriptionLabel.backgroundColor = .orange
         cell.searchImageView.kf.setImage(with: URL(string: searchData[indexPath.row].urls.thumb))
         
         return cell

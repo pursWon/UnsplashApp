@@ -18,20 +18,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let tabBarController: UITabBarController = UITabBarController()
         tabBarController.setViewControllers([mainViewController, navigationController], animated: true)
+        tabBarController.tabBar.tintColor = .orange
         
         if let items = tabBarController.tabBar.items {
-            items[0].image = UIImage(systemName: "folder")
-            items[0].selectedImage = UIImage(systemName: "folder.fill")
+            items[0].image = UIImage(systemName: "house.circle")
+            items[0].selectedImage = UIImage(systemName: "house.circle.fill")
             items[0].title = "Home"
-            
-            items[1].image = UIImage(systemName: "circle")
-            items[1].selectedImage = UIImage(systemName: "circle.fill")
-            items[1].title = "Sub"
             
             items[1].image = UIImage(systemName: "magnifyingglass.circle")
             items[1].selectedImage = UIImage(systemName: "magnifyingglass.circle.fill")
             items[1].title = "Search"
         }
+        
         
         window?.rootViewController = tabBarController
         window?.makeKeyAndVisible()
